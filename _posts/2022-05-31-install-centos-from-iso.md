@@ -1,7 +1,7 @@
 ---
 title: Install CentOS from ISO
 date: "2022-05-31 22:22"
-categories: [Installation Guides, CentOS from ISO]
+categories: [Installation Guides, Operating Systems]
 tags: [homelab, virtualbox, centos, infrastructure, virtualization]
 published: true
 ---

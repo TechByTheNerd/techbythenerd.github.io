@@ -1,7 +1,7 @@
 ---
 title: Install Ubuntu from ISO
 date: "2022-05-31 20:13"
-categories: [Installation Guides, Ubuntu from ISO]
+categories: [Installation Guides, Operating Systems]
 tags: [homelab, virtualbox, ubuntu, infrastructure, virtualization]
 published: true
 ---

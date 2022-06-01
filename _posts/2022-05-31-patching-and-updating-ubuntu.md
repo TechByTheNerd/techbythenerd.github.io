@@ -266,7 +266,7 @@ That will show you a screen like this, where you can choose:
 ![Ubuntu Unattended Upgrades](/assets/img/ubuntu-unattended-upgrades.png)
 
 
-## Using a `cron` job
+### Using a `cron` job
 
 If you created an `update-batch.sh` from the previous section, you can now run that on a regular basis. Edit your cron jobs by running:
 
