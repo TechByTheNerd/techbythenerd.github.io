@@ -196,3 +196,5 @@ jekyll-archives:
     tag: /tags/:name/
     category: /categories/:name/
 
+image_folder: "assets/img/favicon"
+default_feature_image: "assets/img/favicon/android-chrome-512x512.png"
