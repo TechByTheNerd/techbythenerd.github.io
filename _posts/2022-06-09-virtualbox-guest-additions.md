@@ -33,7 +33,7 @@ and on Windows:
 
 ### STEP 2: Run `autorun.sh`
 
-Next, open the newly-mounted CD in the main menu on the left. That brings up a file explorer. Double-click `autorun.sh` to run that program:
+Next, open the newly-mounted CD in the main menu on the left. That brings up a file explorer. Right-click on `autorun.sh` and choose to "Run as a program":
 
 ![Folder View](/assets/img/virtualbox-guest-additions/pre-autorun.png)
 
