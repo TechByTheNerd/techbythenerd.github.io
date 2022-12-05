@@ -7,21 +7,22 @@ published: true
 ---
 ## Overview
 
+There are times when you need to expand the size of a disk or volume in a virtualized environment, and you'd ideally want to do that without having to move or copy files. This page shows how to resize a disk or volume, in-place, without any downtime or data loss.
 
 ### DigitalOcean - Initial Setup
 
-Within DigitalOcean, assume you a virtual machine defined. In the left-side navigation, click on "Volumes", and then "Create Volume" button.
+Within DigitalOcean, assume you a virtual machine defined. In the left-side navigation, click on "Volumes", and then the "Create Volume" button.
 
 ![](/assets/img/do-create-volume.png)
 
-> PRO TIP: Choose to "Automatically Format & Mount" here, because it does make things easier if you need to expand the drive later.
+> PRO TIP: Choose to "Automatically Format & Mount" here, because it does make things easier if you need to expand the drive later. This puts a file system on the device without any partitions.
 {: .prompt-tip }
 
 Now, if you run `lsblk` or `df -H`, you will see the `sda` device mounted to `/mnt/[volumename]`, by default:
 
 ![](/assets/img/do-volume-before.png)
 
-If you wanted this disk space for your website for example, you might mount this volume in the web root. So, you might modify the `/etc/fstab` file and add something like:
+If you wanted this disk space to be used for your website for example, you might mount this volume in the web root (e.g. `/var/web/html`). So, you might modify the `/etc/fstab` file and add something like:
 
 ```fstab
 /dev/sda        /var/www/html   ext4    defaults        0 1
@@ -47,9 +48,9 @@ If you did choose the "Automatically Format & Mount" option above, you should be
 resize2fs /dev/sda
 ```
 
-Assuming your volume device name is `sda1`. For more details, see: https://docs.digitalocean.com/products/volumes/how-to/increase-size/#expand-the-filesystem
+Assuming your volume device name is `sda1`. For more details, see: [https://docs.digitalocean.com/products/volumes/how-to/increase-size/#expand-the-filesystem](https://docs.digitalocean.com/products/volumes/how-to/increase-size/#expand-the-filesystem)
 
-This produces this output and you can run a `df -H' to verify the new space.
+That produces this output and you can run a `df -H` to verify the new space.
 
 ![](/assets/img/do-volume-after.png)
 
@@ -64,11 +65,11 @@ If you chose the "Manually Format & Mount" option, things are a little different
 
 ![](/assets/img/do-create-volume-manual.png)
 
-You probably run `fdisk /dev/sdb` and did `n` for new, took the defaults and did `w` to write changes. That created your partitions. Then, you probably ran `mkfs.ext4 /dev/sdb1` to format the partition.
+You probably ran `fdisk /dev/sdb` and did `n` for new, took the defaults and did `w` to write changes. That created your partitions. Then, you probably ran `mkfs.ext4 /dev/sdb1` to format the partition.
 
 In this case the *specific* partition of `/dev/sdb1` is what you probably put in the `/etc/fstab` file.
 
-MEANING: when you expand the volume on DigitalOcean, it's a bit more complex because the partition table *itself* needs to be modified. Luckily, there is one-line shortcut for this:
+MEANING: when you expand the volume on DigitalOcean, it's a bit more complex because the partition table *itself* needs to be modified, and then the file system needs to be resized. Luckily, there is one-line shortcut for this:
 
 ```bash
 # You point growpart at your device name and partition number. 
@@ -76,7 +77,7 @@ MEANING: when you expand the volume on DigitalOcean, it's a bit more complex bec
 growpart /dev/sda 1
 
 # Now, resize the file system, same as you would using the automatic method
-resize2fs /dev/vda1
+resize2fs /dev/sda1
 ```
 
 That's it. You should see the new volume space become available, thusly:
@@ -101,6 +102,9 @@ Then you can mount that formatted device in your `/etc/fstab` with something lik
 ```fstab
 /dev/sdb    /var/www/html   ext4    defaults    0 1
 ```
+
+> NOTE: You can put a file system directly on a device, without creating partitions first.
+{: .prompt-info }
 
 Later, when you run low on disk space, you can go back into ProxMox and under Disk Action, you can Resize the disk:
 
