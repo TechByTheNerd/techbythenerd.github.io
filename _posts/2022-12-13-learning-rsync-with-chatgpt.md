@@ -83,11 +83,11 @@ To push a file called "backup.tar.gz.gpg" to the archive server using rsync, you
 rsync -e ssh -avz backup.tar.gz.gpg archiver@archive:~/archive
 ```
 
-This command will use ssh to connect to the archiver account on the archive server, and will then use rsync to push the "backup.tar.gz.gpg" file to the /var/archive directory on the archive server, using the symbolic link that you created.
+This command will use ssh to connect to the archiver account on the archive server, and will then use rsync to push the "backup.tar.gz.gpg" file to the `/var/archive` directory on the archive server, using the symbolic link that you created.
 
 The -e ssh option specifies that ssh should be used for the transport, the -avz options are rsync options that enable archive mode, verbose output, and compression, and the final argument specifies the source file and the destination on the remote server.
 
-Since the archiver account has write-only permissions on the /var/archive directory, it will not be able to read the contents of the directory. This means that rsync will not try to read the directory contents before transferring the file. It will simply transfer the file and then exit.
+Since the archiver account has write-only permissions on the `/var/archive` directory, it will not be able to read the contents of the directory. This means that rsync will not try to read the directory contents before transferring the file. It will simply transfer the file and then exit.
 
 I hope this helps! Let me know if you have any other questions.
 
@@ -111,7 +111,7 @@ Host archive
   IdentityFile /path/to/archiver_id.key
 ```
 
-Replace [SERVER HOSTNAME] with the hostname of the archive server.
+Replace `[SERVER HOSTNAME]` with the hostname of the archive server.
 
 You can then use the following rsync command to push the file:
 
@@ -142,7 +142,7 @@ Once the daemon is running, you can use the following rsync command on the test-
 rsync -avz backup.tar.gz.gpg rsync://archive/backups
 ```
 
-This will use rsync to connect to the rsync daemon on the archive server and transfer the "backup.tar.gz.gpg" file to the /var/archive/backups directory on the archive server.
+This will use rsync to connect to the rsync daemon on the archive server and transfer the "backup.tar.gz.gpg" file to the `/var/archive/backups` directory on the archive server.
 
 Keep in mind that using the rsync daemon in this way is not very secure, since it does not require any authentication. You should only use this method if the archive server is on a secure, trusted network and if you are confident that no unauthorized users will be able to access it.
 
@@ -186,13 +186,13 @@ I hope this helps! Let me know if you have any other questions.
 > One last question: how can I have this rsync-daemon run on a different port? What do I need to configure on the server, and where do I specify the port syntax from the client?
 {: .prompt-info }
 
-To configure the rsync daemon to listen on a different port, you can add the following line to the /etc/rsyncd.conf file on the archive server:
+To configure the rsync daemon to listen on a different port, you can add the following line to the `/etc/rsyncd.conf` file on the archive server:
 
 ```bash
 port = [PORT NUMBER]
 ```
 
-Replace [PORT NUMBER] with the port number that you want the rsync daemon to listen on. For example, if you want the rsync daemon to listen on port 873, you would use the following line:
+Replace `[PORT NUMBER]` with the port number that you want the rsync daemon to listen on. For example, if you want the rsync daemon to listen on port 873, you would use the following line:
 
 ```bash
 port = 873
